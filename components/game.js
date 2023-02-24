@@ -6,6 +6,7 @@ const Game = (props) => {
   const initSquares = Array(9).fill(null)
   const [history, setHistory] = useState([initSquares])
   const [xIsNext, setXIsNext] = useState(true)
+  const [stepNumber, setStepNumber] = useState(0)
 
   const calculateWinner = (squares) => {
     const lines = [
@@ -39,16 +40,32 @@ const Game = (props) => {
     }
   }
 
-  const current = history.slice(-1)[0]
+  const current = history[stepNumber]
   const winner = calculateWinner(current)
 
   const handleClick = (i) => {
+    const slicedHistory = history.slice(0, stepNumber + 1)
     const squares = current.slice()
     if (winner || squares[i]) return
     squares[i] = xIsNext ? "X" : "O"
-    setHistory([...history, squares])
+    setHistory([...slicedHistory, squares])
     setXIsNext(!xIsNext)
+    setStepNumber(slicedHistory.length)
   }
+
+  const jumpTo = (step) => {
+    setStepNumber(step)
+    setXIsNext(step % 2 === 0)
+  }
+
+  const moves = history.map((step, move) => {
+    const desc = move ? "Go to move #" + move : "Go to game start"
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{desc}</button>
+      </li>
+    )
+  })
 
   return (
     <div className={s.game}>
@@ -57,7 +74,7 @@ const Game = (props) => {
       </div>
       <div className={s.gameinfo}>
         <div>{status(current)}</div>
-        <ol>{/* TODO */}</ol>
+        <ol>{moves}</ol>
       </div>
     </div>
   )
