@@ -2,8 +2,8 @@ import s from '../styles/square.module.css'
 
 const Square = (props) => {
   return (
-    <button className={s.square}>
-      {/* TO DO */}
+    <button className={s.square} onClick={props.onClick}>
+      {props.value}
     </button>
   );
 }

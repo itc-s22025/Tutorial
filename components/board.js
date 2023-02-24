@@ -1,13 +1,24 @@
 import s from '../styles/board.module.css'
 import Square from './square'
+import { useState } from 'react'
 
 const Board = (props) => {
+  const [squares, setSquares] = useState(Array(9).fill(null))
+
+  const handleClick = (i) => {
+    const x = squares.slice()
+    x[i] = "X"
+    setSquares(x)
+  };
 
   const renderSquare = (i) => (
-    <Square />
+    <Square
+      value={squares[i]}
+      onClick={ () => {handleClick(i)} }
+    />
   )
 
-  const status = "Next player: X";
+  const status = "Next player: X"
 
   return (
     <div>
@@ -28,7 +39,7 @@ const Board = (props) => {
         {renderSquare(8)}
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Board
