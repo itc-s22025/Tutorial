@@ -1,9 +1,9 @@
-import Board from '../components/board'
+import Game from '../components/game'
 
 const Home = () => {
 	return(
-		<Board />
+		<Game />
 	)
 }
 
-export default Board
+export default Home
