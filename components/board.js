@@ -20,11 +20,41 @@ const Board = (props) => {
     />
   )
 
-  const status = `Next player: ${xIsNext ? "X" : "O"}`
+  const calculateWinner = (squares) => {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ]
+
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        return squares[a];
+      }
+    }
+    return null
+  }
+
+  const status = () => {
+    const winner = calculateWinner(squares)
+    if (winner) {
+      return "Winner: " + winner
+    } else if (squares.reduce((x, y) => x && y)) {
+      return "Draw"
+    } else {
+      return `Next player: ${xIsNext ? "X" : "O"}`
+    }
+  }
 
   return (
     <div>
-      <div className={s.status}>{status}</div>
+      <div className={s.status}>{status()}</div>
       <div className={s.boardrow}>
         {renderSquare(0)}
         {renderSquare(1)}
